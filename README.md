@@ -1,123 +1,149 @@
-This pipeline aligns histology images to the Allen CCF.
+# SOP draft for Track localization / Fluo quantification based on Allen Brain CCF
 
-Dependency repository: https://github.com/cortex-lab/allenCCF
-(and Allen CCF atlas)
+## Objectives:
 
-This was made with inspiration from SHARP-Track by Philip Shamash (https://github.com/cortex-lab/allenCCF, https://www.biorxiv.org/content/10.1101/447995v1). It mostly serves the same goals, but has different interfaces (most notably in the histology/CCF matching step) and saves some extra information (like the full CCF coordinates for each CCF slice), which was easier to build new compared to modifying the old.
+This document describes how to process images of full slides of mouse brain's sections  to get probe location data and fluorescence levels by brain area. It can be also useful to align brains from a group of mice, to compose group-based images of fluorescence, track locations, or (third-party) detected ROI(s) like neurons or injection sites.
+This process is based on the work of several projects to rapidly pre-process, automatically align, and manually correct (paint over) atlases. It then allows information extraction and various image export options. Note that it currently only support coronal sections.
 
-All functions are listed in the 'demo_histology_pipeline.m' file.
 
-## Histology preprocessing
+This is the documentation specific to AtlasPainter, a GUI build on top SHARP-Track by Philip Shamash (https://github.com/cortex-lab/allenCCF, https://www.biorxiv.org/content/10.1101/447995v1) et the original AP extension from Andy Peters (https://github.com/petersaj/AP_histology).
 
-### AP_process_histology
-```matlab
-AP_process_histology(im_path); % If size information in the OME-TIFF metadata, resize to CCF scale
-AP_process_histology(im_path,resize_factor); % For user-specified resizing
-```
-1) Downsample and white-balance slides
+## Requirements
 
-Colors will be automatically white-balanced, user indicates color of each channel
+Download/Clone the SHARP-Track repository (https://github.com/cortex-lab/allenCCF).
 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_process_histology_1.png)
+Add the full path (with subfolders) by clicking in matlab on the Set Path button of the Home menu (don't forget to click on "Add with subfolders")
 
-2) Extract slice images from slides
+Download and save locally on your computer (network-based repository could delay significantly each loading of the atlas) the Allen Mouse Brain Atlas (2015) with region annotations (2017). Available from: http://download.alleninstitute.org/informatics-archive/current-release/mouse_ccf/annotation/
 
-Select slices to extract and save: 
-- slices will be automatically detected, left-clicking will select that slice
-- right-clicking will draw a manual region to extract
-- left-clicking on an existing selected region will unselect it
-- spacebar moves to the next slide. 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_process_histology_2.png)
+Download/Clone this repository (https://github.com/juliencarponcy/AP_histology), which is just a fork of the original AP_histology folder (https://github.com/petersaj/AP_histology) with the added Graphical User Interface (GUI) and documentation.
 
-### AP_rotate_histology
-```matlab
-AP_rotate_histology(slice_path);
-```
+You then have to set your matlab working directory to this repository, click on the AtlasPainter.mlapp file in matlab to open MATLAB's AppDesigner, and then click the Run button to open the GUI.
 
-Draw reference line (midline) to center and rotate slices.
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_rotate_histology.png)
+The following section describes the steps necessary in order to obtain the exported images to the right format, it completes the documentation of the two underlying projects. The more relevant instructions are in https://github.com/petersaj/AP_histology#readme but you can also check out https://github.com/cortex-lab/allenCCF/wiki for the original project wiki.
 
-## Histology CCF alignment
+Importantly, all these scripts are only taking RGB (3 channels max.) .tif images
+Support for more channels or other image formats is considered. Feel free to contribute.
 
-### AP_grab_histology_ccf
-```matlab
-AP_grab_histology_ccf(tv,av,st,slice_path);
-```
+## Workflow description
 
-This function is to match histology slices to their corresponding CCF slices. The left plot is the histology slices (scrollable by 1/2), the right plot is the 3D CCF atlas which is rotatable with the arrow keys and scrollable in/out of the plane with the mouse wheel. Typical use would be: 
+### Export
+- Full Slides acquired with ZEN: 
+  - Open ZEN blue
+  - ​	Select maximum 3 channels and change their display color to Green, Red, and Blue. If less than 3 channels, just leave out one color, if more than 3, we'll have to had an extra step. Meanwhile, just leave out one not displayed.
 
-- Match the rotation of the histology slices with the rotation of the CCF using the arrow keys. This is usually easiest using a slice with landmarks sensitive to asymmetries, e.g. the hippocampus or anterior commisure.
-- Once the angle is set, the CCF slice location can be set with the scroll wheel. For each histology slice, scroll to the matching CCF slice and hit 'Enter' to set that slices' location.
-- Once all histology slices are set, hit 'Escape' to save and quit
+​			§ Not Cyan, Magenta, White etc..
 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_grab_histology_ccf.png)
+​		○ Adjust levels : 
 
-### AP_auto_align_histology_ccf
-```matlab
-AP_auto_align_histology_ccf(tv,av,st,slice_path);
-```
+​			§ manually and equally for all channels:
 
-This function auto-aligns each corresponding histology and CCF slice by slice outline only
+​				□ First click on the reset button in the histogram to observe the real picture without any tuning of the curves
 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_auto_align_histology_ccf.png)
+​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals).
 
-### AP_manual_align_histology_ccf
-```matlab
-AP_manual_align_histology_ccf(tv,av,st,slice_path);
-```
+![](Histogram Image.png)
 
-If the auto-alignment didn't work on some slices, they can be manually fixed with this function. Placing > 3 corresponding points on the histology and CCF slices creates a new alignment using those control points, and 'Escape' saves and quits.
 
-From auto-alignment:
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_manual_align_histology_ccf_1.png)
 
-After manual control-point alignment: 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_manual_align_histology_ccf_2.png)
+​		○ In processing, click on Batch, then in Batch Method, select Image export, and in the Method Parameters, Show All. 
 
-## Aligned histology usage
+​		○ As a File type, select Tagged Image File Format (TIFF), not Big Tiff format 64 bit (Big Tiff)
 
-After the above steps, each histology slice is associated with a CCF slice, a transform between slices, and the location in CCF space for each slice. Some current uses for this: 
+​		○ Do not convert to 8 Bit
 
-### AP_view_aligned_histology
-```matlab
-AP_view_aligned_histology(st,slice_path);
-```
-Display the histology slices with overlaid boundaries, hover over region to display name 
+​		○ Compression: None
 
-### AP_view_aligned_histology_volume
-```matlab
-AP_view_aligned_histology_volume(tv,av,st,slice_path,1);
-```
-Threshold and display histology channel in 3D CCF space
+​		○ Resize:  ? Depending on acquisition resolution. The trade-off is to find the best compromise between processing speed and quantification sampling (resolution) quality.
 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_view_aligned_histology_volume.png)
+​		○ Tick the boxes Apply display Curve and Channel Color
 
-### AP_get_probe_histology
-```matlab
-AP_get_probe_histology(tv,av,st,slice_path);
-```
-Get trajectory of dyed probe in CCF coordinates and areas.
+​			§ Merged Channel Image
 
-Enter the number of probes, draw lines on slices with visible tract marks corresponding to the probe (select the relevant probe by number, e.g. '1' to draw a line for probe 1), 'Escape' to save and quit
+​		○ Use Full Set of Dimensions
 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_get_probe_histology_1.png)
+​		○ Do Not Create Folder
 
-This will draw a line of best fit through the points and extract all brain areas along that trajectory. NOTE: it is unusual that the exact end of the probe can be visualized and accurately established from histology alone, so this step saves the entire trajectory and the next step aligns it to electrophysiology.
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_get_probe_histology_2.png)
+​		○ Generate xml file
 
-### AP_align_probe_histology
-```matlab
-AP_align_probe_histology(st,slice_path,spike_times,spike_templates,template_depths);
-```
-This is a first-pass attempt at this function.
+​		○ Do Not Generate zip file
 
-Match the trajectory of the probe through the CCF with electrophysiological signatures. This currently relies on kilosort-convention of variables: 'spike_times' n spikes x 1 vector of all spike times, 'spike_templates' n spikes x 1 vector of the templates corresponding to each spike time, and 'template_depths' n templates x 1 vector of the depth of each template.
+![](Export Image.png)
 
-This will plot the template depth vs spike rate (left), the multiunit correlation (center), and the CCF areas from the trajectory (right). Press (shift) up/down to scroll the CCF areas and match to electrophysiology landmarks. 'Escape' will save and quit. 
 
-The final useful output of this is a file/structure 'probe_ccf' which contains: 
-- probe_ccf.trajectory_coords: the 3D CCF coordinates of the probe trajectory
-- probe_ccf.trajectory_areas: the annotated CCF areas for each point
-- probe_ccf.probe_depths: the relative depth of the probe to that point (e.g. 0 is the top of the probe and ~3840 is the end)
+- One Section only
+  - To adapt from above
+- Full Slides acquired with StereoInvestigator
+- - To be written
+- Single Section with ZEN
+- - To be written
+- Single Section with StereoInvestigator
+- - To be written
 
-![test image](https://github.com/petersaj/AP_scripts_cortexlab/blob/master/wiki/histology/AP_align_probe_histology.png)
+## AP matlab script (build on top of Sharp-Track)
+
+Open the pipeline script e.g.  JulienTestPipeline.m
+
+
+1. Set the allen_atlas_path to the local folder where you have put your atlas files into.
+
+	- Set im_path to the current mice path
+    - Then execute the commands blocks by clicking in the Run and Advance button and follow instructions
+2. Preprocess
+
+	- Individual sections within the slide will be highlighted in the section, potentially alongside dust or debris patches on your slide. Click on the section in the order they have been mounted, after a delay, every selected region should have a rectangle around them
+	- Finally press spacebar to finish your section selection and switch to next slide. 
+
+3. Rotate, centre, pad, flip slice images
+
+	- It will display you individual section and ask you to draw the midline so the sections will be rotated and centred for next steps
+	- It will then prompt you if you wish to further rotate and reorder sections, that should not be necessary and you might as well press escape right away. (or you can browse to check)
+
+4. Select CCF that matches slices
+
+	- Scroll to the atlas section that fit yours, you can flip in every plane to match cutting angle, press enter to make correspond an atlas plane to your section, then move on to next section by pressing 2. Any time you can go back and check by  pressing 1. Check that all your sections get associated with an atlas plane then press Esc to save
+
+5. Align CCF slices and  histology slices
+
+	- This step might take some time depending on image size to automatically fit the atlas to your sections.
+
+	- The quality of the alignment by default with hugely vary according to the way previous steps have been done. E.g.: Are some sections deformed by the mounting? How carefully you selected the atlas plane (have you adapted the angle of slicing in the atlas) ? Are there debris and dust around the section, how well the midline has been drawn? etc... 
+
+6. Manually adjust:
+
+	- Browse all your sections and possibly adjust the atlas matching by clicking on a few anatomical landscapes on your section, then, in the same order, on the atlas. Points      located at the external limits of the brain tends to work better than particular landmarks within the brain. Repeat for other sections. Press Esc when done
+Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
+
+7. Utilize aligned CCF
+
+	- Allow you to visualize the  results of the previous steps
+
+8. Optional: Draw probe(s) trajectory(ies)
+
+	- Based on your records and observations, assign a number to each of your penetration/probe
+
+	- Get a first glance at your tracks by browsing through all the sections with 1 and 2, then, when you know which tracks corresponds to what, start drawing on top of your DiI/DiD signals by first pressing the number key corresponding to the penetration/probe you want to label
+
+	- Press Esc at the end, you should see that after matlab processed it all:
+
+ ![](3D probe track Image.png)
+
+And that: 
+
+![](C:\Users\phar0732\Documents\GitHub\AP_histology\Probe Histology Image.png)
+
+After these steps, you then have the possibility to align electrophysiological markers like spike rate, with the histology.
+
+Check https://github.com/petersaj/AP_histology#ap_align_probe_histology for a preview and more infomation.
+
+## AtlasPainter Matlab GUI
+
+This interface has been made to facilitate exploration, quantification and modification of data related to automatically fitted atlas and probe tracing in the previous steps.
+
+### A few hints for usage
+
+- Specify the (brain-specific) path to the "slices" directory created by AP_histology for each mouse.
+- Specify the path to the Allen Mouse Brain Atlas directory.
+- Click on the Load button, after reconstructing transformed atlases, you will see your first section
+
+![](Atlas Painter Screenshot Image.png)
