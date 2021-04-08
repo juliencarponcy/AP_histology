@@ -42,7 +42,7 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals).
 
-![](https://github.com/juliencarponcy/AP_histology/blob/master/Histogram Image.png)
+![](<img src= "images/Histogram Image.png">)
 
 
 
