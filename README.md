@@ -40,9 +40,9 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​				□ First click on the reset button in the histogram to observe the real picture without any tuning of the curves
 
-​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals).
+​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals. This step might be removed and made more convenient / correct in future updates.
 
-![](<img src= "images/Histogram Image.png">)
+<img src= "images/Histogram Image.png">
 
 
 
