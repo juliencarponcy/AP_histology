@@ -42,7 +42,7 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals).
 
-![](https://github.com/juliencarponcy/AP_histology/Histogram Image.png)
+![](https://github.com/juliencarponcy/AP_histology/blob/master/Histogram Image.png)
 
 
 
@@ -68,7 +68,7 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​		○ Do Not Generate zip file
 
-![](https://github.com/juliencarponcy/AP_histology/Export Image.png)
+![](https://github.com/juliencarponcy/AP_histology/blob/master/Export Image.png)
 
 
 - One Section only
@@ -126,11 +126,11 @@ Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
 
 	- Press Esc at the end, you should see that after matlab processed it all:
 
- ![](3D probe track Image.png)
+ ![](https://github.com/juliencarponcy/AP_histology/blob/master/3D probe track Image.png)
 
 And that: 
 
-![](https://github.com/juliencarponcy/AP_histology/Probe Histology Image.png)
+![](https://github.com/juliencarponcy/AP_histology/blob/master/Probe Histology Image.png)
 
 After these steps, you then have the possibility to align electrophysiological markers like spike rate, with the histology.
 
@@ -146,4 +146,4 @@ This interface has been made to facilitate exploration, quantification and modif
 - Specify the path to the Allen Mouse Brain Atlas directory.
 - Click on the Load button, after reconstructing transformed atlases, you will see your first section
 
-![](https://github.com/juliencarponcy/AP_histology/Atlas Painter Screenshot Image.png)
+![](https://github.com/juliencarponcy/AP_histology/blob/master/Atlas Painter Screenshot Image.png)
