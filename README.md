@@ -126,11 +126,11 @@ Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
 
 	- Press Esc at the end, you should see that after matlab processed it all:
 
- ![](https://github.com/juliencarponcy/AP_histology/blob/master/3D probe track Image.png)
+<img src= "/3D probe track Image.png">
 
 And that: 
 
-![](https://github.com/juliencarponcy/AP_histology/blob/master/Probe Histology Image.png)
+<img src= "/Probe Histology Image.png">
 
 After these steps, you then have the possibility to align electrophysiological markers like spike rate, with the histology.
 
@@ -146,4 +146,4 @@ This interface has been made to facilitate exploration, quantification and modif
 - Specify the path to the Allen Mouse Brain Atlas directory.
 - Click on the Load button, after reconstructing transformed atlases, you will see your first section
 
-![](https://github.com/juliencarponcy/AP_histology/blob/master/Atlas Painter Screenshot Image.png)
+<img src= "/Atlas Painter Screenshot Image.png">
