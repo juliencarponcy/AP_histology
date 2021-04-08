@@ -42,7 +42,7 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals).
 
-![](Histogram Image.png)
+![](/Histogram Image.png)
 
 
 
@@ -68,7 +68,7 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​		○ Do Not Generate zip file
 
-![](Export Image.png)
+![](/Export Image.png)
 
 
 - One Section only
@@ -130,7 +130,7 @@ Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
 
 And that: 
 
-![](C:\Users\phar0732\Documents\GitHub\AP_histology\Probe Histology Image.png)
+![](\Probe Histology Image.png)
 
 After these steps, you then have the possibility to align electrophysiological markers like spike rate, with the histology.
 
