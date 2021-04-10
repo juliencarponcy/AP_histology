@@ -3,13 +3,13 @@
 %% 1) Load CCF and set paths for slide and slice images
 
 % Load CCF atlas
-allen_atlas_path = 'D:\00 Track Location\Allen Brain Mouse\';
+allen_atlas_path = 'C:\Users\phar0732\Documents\Allen Brain Mouse';
 tv = readNPY([allen_atlas_path filesep 'template_volume_10um.npy']);
 av = readNPY([allen_atlas_path filesep 'annotation_volume_10um_by_index.npy']);
 st = loadStructureTree([allen_atlas_path filesep 'structure_tree_safe_2017.csv']);
 
 %% Set paths for histology images and directory to save slice/alignment
-im_path = 'Z:\00 IMAGES\Dave full slides DiD and background only\317';
+im_path = 'Z:\00 IMAGES\Dave full slides Immuno Vial1\Export 317';
 slice_path = [im_path filesep 'slices'];
 
 %% 2) Preprocess slide images to produce slice images
