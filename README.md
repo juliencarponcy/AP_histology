@@ -6,19 +6,19 @@ This document describes how to process images of full slides of mouse brain's se
 This process is based on the work of several projects to rapidly pre-process, automatically align, and manually correct (paint over) atlases. It then allows information extraction and various image export options. Note that it currently only support coronal sections.
 
 
-This is the documentation specific to AtlasPainter, a GUI build on top SHARP-Track by Philip Shamash (https://github.com/cortex-lab/allenCCF, https://www.biorxiv.org/content/10.1101/447995v1) et the original AP extension from Andy Peters (https://github.com/petersaj/AP_histology).
+This is the documentation specific to AtlasPainter, a GUI build on top SHARP-Track by Philip Shamash (https://github.com/cortex-lab/allenCCF, https://www.biorxiv.org/content/10.1101/447995v1) and the original AP extension from Andy Peters (https://github.com/petersaj/AP_histology).
 
 ## Requirements
 
-Download/Clone the SHARP-Track repository (https://github.com/cortex-lab/allenCCF).
+Download/Clone the **SHARP-Track repository** (https://github.com/cortex-lab/allenCCF).
 
-Add the full path (with subfolders) by clicking in matlab on the Set Path button of the Home menu (don't forget to click on "Add with subfolders")
+Add the full path (with subfolders) by clicking in MATALB on the **Set Path** button of the Home menu (don't forget to click on "Add with subfolders")
 
-Download and save locally on your computer (network-based repository could delay significantly each loading of the atlas) the Allen Mouse Brain Atlas (2015) with region annotations (2017). Available from: http://download.alleninstitute.org/informatics-archive/current-release/mouse_ccf/annotation/
+Download and save locally on your computer (network-based repository could delay significantly each loading of the atlas) **the Allen Mouse Brain Atlas (2015) with region annotations (2017)**. Available from: http://download.alleninstitute.org/informatics-archive/current-release/mouse_ccf/annotation/
 
-Download/Clone this repository (https://github.com/juliencarponcy/AP_histology), which is just a fork of the original AP_histology folder (https://github.com/petersaj/AP_histology) with the added Graphical User Interface (GUI) and documentation.
+Download/Clone this repository (https://github.com/juliencarponcy/AP_histology), which is just a fork of the original `AP_histology` folder (https://github.com/petersaj/AP_histology) with the added Graphical User Interface (GUI) and documentation.
 
-You then have to set your matlab working directory to this repository, click on the AtlasPainter.mlapp file in matlab to open MATLAB's AppDesigner, and then click the Run button to open the GUI.
+You then have to set your MATLAB working directory to this repository, click on the `AtlasPainter.mlapp` file in MATLAB to open MATLAB's AppDesigner, and then click the **Run** button to open the GUI.
 
 The following section describes the steps necessary in order to obtain the exported images to the right format, it completes the documentation of the two underlying projects. The more relevant instructions are in https://github.com/petersaj/AP_histology#readme but you can also check out https://github.com/cortex-lab/allenCCF/wiki for the original project wiki.
 
@@ -30,7 +30,7 @@ Support for more channels or other image formats is considered. Feel free to con
 ### Export
 - Full Slides acquired with ZEN: 
   - Open ZEN blue
-  - ​	Select maximum 3 channels and change their display color to Green, Red, and Blue. If less than 3 channels, just leave out one color, if more than 3, we'll have to had an extra step. Meanwhile, just leave out one not displayed.
+  - Select maximum 3 channels and change their display color to Green, Red, and Blue. If less than 3 channels, just leave out one color, if more than 3, we'll have to have an extra step. Meanwhile, just leave out one not displayed.
 
 ​			§ Not Cyan, Magenta, White etc..
 
@@ -40,9 +40,9 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​				□ First click on the reset button in the histogram to observe the real picture without any tuning of the curves
 
-​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluo intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals. This step might be removed and made more convenient / correct in future updates.
+​				□ Then change, in the histogram, for all channels, the White value (out of 65555), to something lower that will allow you to see anatomical landmarks (eg. 20000). Be careful not to "eat to much" in your histogram as you are decreasing the range of the fluorescence intensity by doing that (certain noisy or very bright pixel will appear at maximum value whereas they would have not if you did not touch the histogram, this must be carefully selected in order to not saturate your signals. This step might be removed and made more convenient / correct in future updates.
 
-<img src= "/Histogram Image.png">
+<img src= "Histogram Image.png">
 
 
 
@@ -68,26 +68,26 @@ Support for more channels or other image formats is considered. Feel free to con
 
 ​		○ Do Not Generate zip file
 
-<img src= "/Export Image.png">
+<img src= "Export Image.png">
 
 
 - One Section only
   - To adapt from above
-- Full Slides acquired with StereoInvestigator
+- Full Slides acquired with Stereo Investigator
 - - To be written
 - Single Section with ZEN
 - - To be written
-- Single Section with StereoInvestigator
+- Single Section with Stereo Investigator
 - - To be written
 
-## AP matlab script (build on top of Sharp-Track)
+## AP MATLAB script (build on top of Sharp-Track)
 
-Open the pipeline script e.g.  JulienTestPipeline.m
+Open the pipeline script e.g.  `JulienTestPipeline.m`
 
 
-1. Set the allen_atlas_path to the local folder where you have put your atlas files into.
+1. Set the `allen_atlas_path` to the local folder where you have put your atlas files into.
 
-	- Set im_path to the current mice path
+	- Set `im_path` to the current mice path
     - Then execute the commands blocks by clicking in the Run and Advance button and follow instructions
 2. Preprocess
 
@@ -107,12 +107,11 @@ Open the pipeline script e.g.  JulienTestPipeline.m
 
 	- This step might take some time depending on image size to automatically fit the atlas to your sections.
 
-	- The quality of the alignment by default with hugely vary according to the way previous steps have been done. E.g.: Are some sections deformed by the mounting? How carefully you selected the atlas plane (have you adapted the angle of slicing in the atlas) ? Are there debris and dust around the section, how well the midline has been drawn? etc... 
+	- The quality of the alignment by default with hugely vary according to the way previous steps have been done: e.g. Are some sections deformed by the mounting? How carefully you selected the atlas plane (have you adapted the angle of slicing in the atlas) ? Are there debris and dust around the section, how well the midline has been drawn? etc... 
 
 6. Manually adjust:
 
-	- Browse all your sections and possibly adjust the atlas matching by clicking on a few anatomical landscapes on your section, then, in the same order, on the atlas. Points      located at the external limits of the brain tends to work better than particular landmarks within the brain. Repeat for other sections. Press Esc when done
-Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
+	- Browse all your sections and possibly adjust the atlas matching by clicking on a few anatomical landscapes on your section, then, in the same order, on the atlas. Points located at the external limits of the brain tends to work better than particular landmarks within the brain. Repeat for other sections. Press Esc when done. Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
 
 7. Utilize aligned CCF
 
@@ -124,19 +123,19 @@ Note that everything is modifiable by "painting" later in the AtlasPainter GUI.
 
 	- Get a first glance at your tracks by browsing through all the sections with 1 and 2, then, when you know which tracks corresponds to what, start drawing on top of your DiI/DiD signals by first pressing the number key corresponding to the penetration/probe you want to label
 
-	- Press Esc at the end, you should see that after matlab processed it all:
+	- Press Esc at the end, you should see that after MATLAB processed it all:
 
-<img src= "/3D probe track Image.png">
+<img src= "3D probe track Image.png">
 
 And that: 
 
-<img src= "/Probe Histology Image.png">
+<img src= "Probe Histology Image.png">
 
 After these steps, you then have the possibility to align electrophysiological markers like spike rate, with the histology.
 
-Check https://github.com/petersaj/AP_histology#ap_align_probe_histology for a preview and more infomation.
+Check https://github.com/petersaj/AP_histology#ap_align_probe_histology for a preview and more information.
 
-## AtlasPainter Matlab GUI
+## AtlasPainter MATLAB GUI
 
 This interface has been made to facilitate exploration, quantification and modification of data related to automatically fitted atlas and probe tracing in the previous steps.
 
@@ -146,4 +145,4 @@ This interface has been made to facilitate exploration, quantification and modif
 - Specify the path to the Allen Mouse Brain Atlas directory.
 - Click on the Load button, after reconstructing transformed atlases, you will see your first section
 
-<img src= "/Atlas Painter Screenshot Image.png">
+<img src= "Atlas Painter Screenshot Image.png">
