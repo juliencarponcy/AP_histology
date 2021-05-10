@@ -3,13 +3,13 @@
 %% 1) Load CCF and set paths for slide and slice images
 
 % Load CCF atlas
-allen_atlas_path = 'C:\Users\phar0732\Documents\Allen Brain Mouse';
+allen_atlas_path = 'C:\Users\phar0732\OneDrive - Nexus365\Documents\Allen Brain Mouse';
 tv = readNPY([allen_atlas_path filesep 'template_volume_10um.npy']);
 av = readNPY([allen_atlas_path filesep 'annotation_volume_10um_by_index.npy']);
 st = loadStructureTree([allen_atlas_path filesep 'structure_tree_safe_2017.csv']);
 
 %% Set paths for histology images and directory to save slice/alignment
-im_path = 'Z:\00 IMAGES\Dave full slides Immuno Vial1\Export 317';
+im_path = 'D:\TempImage\3 sections together';
 slice_path = [im_path filesep 'slices'];
 
 %% 2) Preprocess slide images to produce slice images
@@ -22,7 +22,7 @@ slice_path = [im_path filesep 'slices'];
 
 % Set resize factor
 % resize_factor = []; % (slides ome.tiff: auto-resize ~CCF size 10um/px)
-resize_factor = 1; % (slides tiff: resize factor)
+resize_factor = 1; % 0.1 lead to images 10x smaller (slides tiff: resize factor)
 
 % Set slide or slice images
 slice_images = false; % (images are slides - extract individual slices)
