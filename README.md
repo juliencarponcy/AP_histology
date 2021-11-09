@@ -1,4 +1,4 @@
-# SOP draft for Track localization / Fluo quantification based on Allen Brain CCF
+# SOP draft for Track localization / Densitometry based on Allen Brain CCF
 
 ## Objectives:
 
